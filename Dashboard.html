@@ -1,0 +1,638 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Dashboard </title>
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" crossorigin="anonymous"></script>
+    <!--Jquery 3.4.0 manual-->
+    <script src="js/jquery.js"></script>
+    <!-- AJAX HARUS ADA-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script>
+        window.onload = () => {
+
+            // Clear localStorage
+            if (localStorage.getItem('token') === 'true') {
+                localStorage.removeItem('token');
+                // Show them the sign in form
+            }
+        };
+    </script>
+
+    <style>
+        table {
+            border: 1px solid #000;
+        }
+        
+        tbody tr:nth-child(even) {
+            background-color: #FFF5EE;
+        }
+        
+        .card {
+            border: none;
+        }
+        
+        @media only screen and (max-width: 480px) {
+            table th:nth-child(1) {
+                display: none;
+            }
+            table th:nth-child(3) {
+                display: none;
+            }
+            table th:nth-child(4) {
+                display: none;
+            }
+            table th:nth-child(5) {
+                display: none;
+            }
+            table td:nth-child(1) {
+                display: none;
+            }
+            table td:nth-child(3) {
+                display: none;
+            }
+            table td:nth-child(4) {
+                display: none;
+            }
+            table td:nth-child(5) {
+                display: none;
+            }
+            table td {
+                font-size: 14px;
+            }
+        }
+        
+        .box {
+            width: 500px;
+            height: 260px;
+            border: 1px solid rgb(219, 218, 218);
+            background-color: #ebeced;
+            color: #727070;
+            font-size: 18px;
+            padding: 60px 15px 20px 15px;
+            margin: auto;
+            box-shadow: 2px 2px 2px rgba(141, 139, 139, 0.8);
+            font-size: 16px;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            border-radius: 10px;
+        }
+        
+        .warna {
+            background-color: #4c586f;
+        }
+    </style>
+</head>
+
+<body class="sb-nav-fixed" id="body">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <a class="navbar-brand" href="Dashboard.html">Brasil Management</a>
+        <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
+        <!-- Navbar Search-->
+        <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+            <div class="input-group">
+                <input class="form-control" type="text" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" />
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </form>
+        <!-- Navbar-->
+        <ul class="navbar-nav ml-auto ml-md-0">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <script>
+                        var n = localStorage.getItem("username");
+                        document.getElementById("userDropdown").innerHTML = `<i class="fas fa-user fa-fw text-white"></i> ` + n;
+                    </script>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                    <a class="dropdown-item" href="HistoryLogin.html"> <i class="fas fa-user-clock mr-2 text-success"></i>Activity Log</a>
+                    <a class="dropdown-item" href="updatepassword.html"><i class="fas fa-unlock-alt mr-2 text-warning"></i>Update Password</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="index.html" onclick="deleteItems()"><i class="fas fa-power-off mr-2 text-danger"></i>Logout</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading text-white">Interface</div>
+                        <a class="nav-link text-light" href="Dashboard.html">
+                            <div class="sb-nav-link-icon "><i class="fas fa-home text-white"></i>
+                            </div>
+                            Dashboard
+                        </a>
+                        <div class="sb-sidenav-menu-heading text-white" style="padding: 18px 16px 12px;">Menu </div>
+                        <div id="sidenavAccordionPages"></div>
+                        <div class="sb-sidenav-menu-heading"></div>
+
+                        <!-- <a class="nav-link" href="tables.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            MONITOR BARANG
+                        </a>
+                        <a class="nav-link" href="asset.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            MONITOR ASSET
+                        </a>
+                        <a class="nav-link" href="getAsset.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            MONITOR HISTORY ASSET
+                        </a> -->
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="small text-white " id="user"></div>
+                    <script>
+                        var n = localStorage.getItem("username");
+                        document.getElementById("user").innerHTML = `Logged in as   : ` + n;
+                    </script>
+                </div>
+            </nav>
+        </div>
+        <div id="layoutSidenav_content">
+            <main class="warna">
+                <div class="container-fluid ">
+                    <br>
+                    <div class="card mb-4">
+                        <div class="card-body warna">
+                            <div class="row">
+                                <img id="" src="" width="500px" height="450px" class="img-thumbnail img-fluid imgmotivasi3 shadow-lg p-3 mb-5 bg-white rounded mr-2" alt="Responsive image">
+                                <div id="" class="box motivasi">
+                                    <h3 class="text-white"></h3>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <footer class="py-4 bg-dark mt-auto">
+                <div class="container-fluid">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-white text-mute">Copyright &copy; Brasil Store 2020</div>
+                        <div>
+                            <a href="#">Privacy Policy</a> &middot;
+                            <a href="#">Terms &amp; Conditions</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Detail Data</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group" id="lis">
+
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAMPILKAN DATA OBJECT-->
+    <script>
+        var x = localStorage.getItem("token");
+        console.log(x);
+        console.log(x);
+    </script>
+
+    <!--Menu-->
+    <script>
+        let menu;
+        var settings = {
+            "url": "https://okt20.onlineberkas.com/api/menus/get-menu",
+            "method": "GET",
+            "timeout": 0,
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "data": JSON.stringify({}),
+        };
+
+        $.ajax(settings).done(function(response) {
+
+            menu = response;
+
+            let html = "";
+            menu.forEach(data => {
+
+                if (data.menuSubs == null) {
+                    html += `<a class="nav-link" href="${data.namaLink}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-folder-open text-white"></i></div>
+                                ${data.namaMenu}
+                            </a>`
+                } else {
+                    let submenu = "";
+                    data.menuSubs.forEach(dataMenuSubs => {
+                        console.log(dataMenuSubs)
+                        submenu += `<a class="nav-link" href="${dataMenuSubs.namaLink}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-folder-open text-white"></i></div>
+                                ${dataMenuSubs.namaMenu}
+                           </a>`
+                            //aria-expanded="true" 
+                            // data-toggle="collapse" data-target="#pagesCollapseAuth" aria-controls="pagesCollapseAuth"
+                    })
+                    html += `<a class="nav-link " href="#" id="submenu">
+                                <div class="sb-nav-link-icon text-white"><i class="fas fa-folder-open"></i></div>
+                                ${data.namaMenu}
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class ="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
+                                <nav class="sb-sidenav-menu-nested nav" id="menuSubs">
+                                    ${submenu}
+                                </nav>
+                            </div>`
+
+                }
+                document.getElementById('sidenavAccordionPages').innerHTML = html;
+            })
+            document.querySelectorAll('#submenu').forEach((Menu, id) => {
+                console.log(id)
+                const subMenu = document.querySelectorAll('#pagesCollapseAuth');
+                Menu.addEventListener('click', function(event) {
+                    console.log(subMenu[id])
+                    if (subMenu[id].classList.contains('show')) {
+                        subMenu[id].classList.remove('show')
+
+                    } else {
+
+                        subMenu[id].classList.add('show')
+                    }
+
+                })
+            })
+
+
+
+        });
+    </script>
+
+
+    <!-- HAPUS DATA LOCALSTROGA-->
+    <script>
+        function deleteItems() {
+            localStorage.clear();
+        }
+    </script>
+
+    <!--BIKIN RANDOM GAMBAR-->
+
+
+    <script>
+        var settings = {
+            "url": "https://okt20.onlineberkas.com/api/menus/get-motivasigambar",
+            "method": "GET",
+            "timeout": 0,
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "data": JSON.stringify({}),
+        };
+
+        $.ajax(settings).done(function(response) {
+
+            console.log(response)
+            let data2 = response;
+            let file;
+            let id2;
+
+            let modulGambar2 = ""
+            for (let dataGambar2 of data2) {
+                id2 = dataGambar2.id;
+                file = dataGambar2.namaFile;
+
+            }
+
+
+            const img2 = document.querySelector('.imgmotivasi3');
+            img2.id = id2;
+
+
+            img2.addEventListener('click', function(even) {
+                img2.id = Math.floor(Math.random() * id2) + 1;;
+
+                for (let dataGambar3 of data2) {
+                    if (img2.id == dataGambar3.id) {
+                        const filegambar = dataGambar3.namaFile
+
+                        var dataImage2 = JSON.stringify({
+                            "namafile": filegambar
+                        });
+
+                        var xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function() {
+                            if (this.readyState == 4 && this.status == 200) {
+                                //this.response is what you're looking for
+                                // handler(this.response);
+                                // console.log(this.response, typeof this.response);
+                                var urli = window.URL || window.webkitURL;
+                                img2.src = urli.createObjectURL(this.response);
+                                img2.innerHTML = modulGambar2;
+
+                            }
+                        }
+
+                        xhr.open("POST", "https://okt20.onlineberkas.com/api/files/get-fileMotivasi");
+                        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                        xhr.responseType = 'blob';
+                        xhr.send(dataImage2);
+
+                    }
+                }
+            })
+
+            var dataImage2 = JSON.stringify({
+                "namafile": file
+            });
+
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    //this.response is what you're looking for
+                    // handler(this.response);
+                    // console.log(this.response, typeof this.response);
+                    var urli = window.URL || window.webkitURL;
+                    img2.src = urli.createObjectURL(this.response);
+                    img2.innerHTML = modulGambar2;
+
+                }
+            }
+
+            xhr.open("POST", "https://okt20.onlineberkas.com/api/files/get-fileMotivasi");
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.responseType = 'blob';
+            xhr.send(dataImage2);
+
+        });
+    </script>
+
+    <!--Bikin tulisan Random-->
+    <script>
+        var settings = {
+            "url": "https://okt20.onlineberkas.com/api/menus/get-motivasi",
+            "method": "GET",
+            "timeout": 0,
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "data": JSON.stringify({
+                "token": "k/5WCnDnlFVPByq4eVLVrf+DwwWs7lK3zy0ru3UDWohjNZIBgQTOsd2ThKMW8Inc",
+                "id": 1
+            }),
+        };
+
+        $.ajax(settings).done(function(response) {
+
+
+            let datahidayah = response;
+            let idhidayah;
+
+
+
+            let hidayahHtml = "";
+            for (let datahidayah2 of datahidayah) {
+                idhidayah = datahidayah2.id;
+                isihidayah = datahidayah2.kalimat;
+
+            }
+            const hidayah = document.querySelector('.motivasi');
+
+            hidayah.id = idhidayah;
+
+
+            console.log(hidayah)
+            hidayah.addEventListener('click', function(even) {
+
+                hidayah.id = Math.floor(Math.random() * idhidayah) + 1;;
+
+                for (let datahidayah3 of datahidayah) {
+                    if (hidayah.id == datahidayah3.id) {
+                        const kalimathidayah = datahidayah3.kalimat;
+                        hidayah.innerHTML = kalimathidayah;
+                    }
+                }
+
+            })
+
+
+            hidayah.innerHTML = isihidayah;
+        });
+    </script>
+
+    <!-- BODY CONTAKS-->
+    <script>
+        const bodY = document.getElementById('layoutSidenav_content')
+        document.getElementById('layoutSidenav_content').addEventListener('click', function(el) {
+            console.log(bodY)
+            if (bodY.classList) {
+                document.getElementById('body').classList.remove("sb-sidenav-toggled");
+            } else {
+                console.log(document.getElementById('body').classList.contains('sb-sidenav-toggled'))
+            }
+
+        })
+    </script>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+
+    <!-- CHAR DIAGRAM
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+     <script src="assets/demo/chart-bar-demo.js"></script>
+    <script src="assets/demo/chart-area-demo.js"></script>
+   -->
+
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+    <script src="assets/demo/datatables-demo.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- <script>
+        let id;
+        let namaFile;
+        var settings = {
+            "url": "https://okt20.onlineberkas.com/api/menus/get-motivasigambar",
+            "method": "GET",
+            "timeout": 0,
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "data": JSON.stringify({}),
+        };
+
+        $.ajax(settings).done(function(response) {
+            console.log(response);
+            let data = response;
+
+            let gambarr = "";
+            const gambarHTML = document.getElementById('gambar')
+            for (let dataGambar of data) {
+                id = dataGambar.id;
+                namaFile = dataGambar.namaFile;
+
+
+            }
+            gambarr += `<button id="${id}" class ="RandomGambar">Tampilkan Gambar</button>`;
+
+            gambarHTML.innerHTML = gambarr;
+
+            const RandomGambar = document.querySelectorAll(".RandomGambar");
+            RandomGambar.forEach((el => {
+                el.addEventListener('click', function(event) {
+                    const IdGambar = parseInt(event.target.id);
+                    let number = Math.floor(Math.random() * IdGambar) + 1;
+                    console.log(number)
+                    let modulGambar = ""
+                    for (let dataGambar2 of data) {
+                        if (number == dataGambar2.id) {
+                            console.log(dataGambar2.namaFile)
+
+                            var dataImage = JSON.stringify({
+                                "namafile": dataGambar2.namaFile
+                            });
+
+                            var xhr = new XMLHttpRequest();
+                            xhr.onreadystatechange = function() {
+                                if (this.readyState == 4 && this.status == 200) {
+                                    //this.response is what you're looking for
+                                    // handler(this.response);
+                                    // console.log(this.response, typeof this.response);
+                                    const img = document.getElementById('imgmotivasi');
+                                    console.log(img)
+                                    var url = window.URL || window.webkitURL;
+                                    img.src = url.createObjectURL(this.response);
+                                    img.innerHTML = modulGambar;
+
+                                }
+                            }
+
+                            xhr.open("POST", "https://okt20.onlineberkas.com/api/files/get-fileMotivasi");
+                            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                            xhr.responseType = 'blob';
+                            xhr.send(dataImage);
+                        }
+                    }
+                })
+            }))
+
+        });
+    </script> -->
+
+    <script>
+        // let id;
+        // var settings = {
+
+        //     "url": "https://okt20.onlineberkas.com/api/monitoringtokos/get-list",
+        //     "method": "POST",
+        //     "timeout": 0,
+        //     "headers": {
+        //         "Content-Type": "application/json"
+        //     },
+        //     "data": JSON.stringify({
+        //         "token": x
+        //     }),
+        // };
+
+
+        // $.ajax(settings).done(function(response) {
+
+        //     let data = (response);
+
+        //     // console.log(response);
+
+        //     var table = '<table>';
+        //     var nomor = 1;
+        //     var list = `<ul>`
+
+        //     for (let item of data) {
+
+        //         id = item.customerId;
+
+        //         table += '<tr >';
+        //         table += `<td class="text-center" >${nomor++}</td>`;
+        //         table += `<td id = "map">          
+        //                     <a href="http://maps.google.com/maps?q= + ${item.latitude} + , + ${item.longitude}"> <i class="fas fa-map-marker-alt mr-3 ml-2"></i></a>  
+        //                      ${item.nama}                  
+        //                     </td>`;
+        //         table += `<td class="text-center">${item.jarak}</td>`;
+        //         table += `<td class="text-center ">${item.juice}</td>`;
+        //         table += `<td class="text-center">${item.box}</td>`;
+        //         table += `<td class="text-center"><button type="button" id="${id}" class="btn btn-small btn-primary id_detail" data-toggle="modal" data-target="#exampleModal">
+        //                    Detail
+        //                 </button></td>`;
+        //         table += '</tr>';
+
+
+
+
+        //     }
+
+        //     table += '</table>';
+        //     document.getElementById('demo').innerHTML = table
+
+        //     var list = '<ul>'
+
+        //     const idDetail = document.querySelectorAll(".id_detail");
+        //     idDetail.forEach((el) => {
+        //         el.addEventListener('click', function(event) {
+        //             const IdDetail = parseInt(event.target.id);
+        //             let modal = "";
+        //             const Modal = document.getElementById('lis');
+        //             for (let modul of data) {
+        //                 if (IdDetail === modul.customerId) {
+        //                     modal += `
+        //                     <li class="list-group-item"><span class="font-weight-bold">Jarak</span>  :    ${modul.jarak}</li>
+        //                     <li class="list-group-item"><span class="font-weight-bold">Juice</span>  :     ${modul.juice}</li>
+        //                     <li class="list-group-item"><span class="font-weight-bold">Box</span>  :     ${modul.box}</li>
+        //                     `
+        //                 }
+        //             }
+        //             Modal.innerHTML = modal;
+
+        //         })
+        //     })
+
+
+        // });
+    </script>
+</body>
+
+</html>

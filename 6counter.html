@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>MONITOR ASSEST</title>
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" crossorigin="anonymous"></script>
+    <!--Jquery 3.4.0 manual-->
+    <script src="js/jquery.js"></script>
+    <!-- AJAX HARUS ADA-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script>
+        window.onload = () => {
+
+            // Clear localStorage
+            if (localStorage.getItem('token') === 'true') {
+                localStorage.removeItem('token');
+                // Show them the sign in form
+            }
+        };
+    </script>
+    <style>
+        .table-custom {
+            background-color: #244065;
+        }
+        
+        .table-custom th {
+            color: white;
+        }
+        
+        tbody tr:nth-child(even) {
+            background-color: #D6EAF8;
+            color: #244065;
+        }
+        
+        .myCard {
+            padding: 15px 15px 1px 15px;
+        }
+        
+        .myCard2 {
+            padding: 8px 20px 20px 20px;
+        }
+        
+        .card-custom {
+            display: none;
+        }
+        
+        .card {
+            border: none;
+        }
+        
+        .myInputHp {
+            display: none;
+        }
+        
+        .bg-card {
+            background-color: #523633;
+        }
+        
+        .font-card {
+            color: #FDFEFE;
+            font-size: 16px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .font-list {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+        }
+        
+        .alert-bg {
+            background-color: #ebe682;
+        }
+        
+        .btn-card {
+            background-color: #a77a39;
+            color: white;
+        }
+        
+        .btn-card2 {
+            background-color: #ea6f50;
+            color: white;
+        }
+        
+        @media only screen and (max-width: 480px) {
+            table {
+                display: none;
+            }
+            .card-custom {
+                display: inline;
+            }
+            .myInputHp {
+                display: inline;
+            }
+            /* table th:nth-child(1) {
+                display: none;
+            }
+            table th:nth-child(3) {
+                display: none;
+            }
+            table th:nth-child(2) {
+                display: none;
+            }
+            table th:nth-child(5) {
+                display: table-cell;
+            }
+            table td:nth-child(5) {
+                display: table-cell;
+            }
+            table td:nth-child(1) {
+                display: none;
+            }
+            table td:nth-child(3) {
+                display: none;
+            }
+            table td:nth-child(2) {
+                display: none;
+            }
+            table td {
+                font-size: 14px;
+            } */
+        }
+    </style>
+    </style>
+</head>
+
+<body class="sb-nav-fixed" id="body">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <a class="navbar-brand" href="index.html">Brasil Management</a>
+        <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
+        <!-- Navbar Search-->
+        <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+            <div class="input-group">
+                <input class="form-control" id="myInput" type="text" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" />
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </form>
+        <!-- Navbar-->
+        <ul class="navbar-nav ml-auto ml-md-0">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <script>
+                        var n = localStorage.getItem("username");
+                        document.getElementById("userDropdown").innerHTML = `<i class="fas fa-user fa-fw text-white"></i> ` + n;
+                    </script>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                    <a class="dropdown-item" href="HistoryLogin.html"> <i class="fas fa-user-clock mr-2 text-success"></i>Activity Log</a>
+                    <a class="dropdown-item" href="updatepassword.html"><i class="fas fa-unlock-alt mr-2 text-warning"></i>Update Password</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="index.html" onclick="deleteItems()"><i class="fas fa-power-off mr-2 text-danger"></i>Logout</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading text-white">Interface</div>
+                        <a class="nav-link text-light" href="Dashboard.html">
+                            <div class="sb-nav-link-icon "><i class="fas fa-home text-white"></i>
+                            </div>
+                            Dashboard
+                        </a>
+                        <div class="sb-sidenav-menu-heading text-white" style="padding: 18px 16px 12px;">Menu </div>
+                        <div id="sidenavAccordionPages"></div>
+                        <!-- <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            Layouts
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="layout-static.html">Static Navigation</a>
+                                <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
+                            </nav>
+                        </div> -->
+                        <!-- <a class="nav-link collapsed text-light" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                            <div class="sb-nav-link-icon"><i class="fas fa-book-open text-white"></i></div>
+                            MENU
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages"> -->
+                        <!-- <a class="nav-link" href="tables.html">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                    Product
+                                </a>
+                                <a class="nav-link" href="tables.html">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                    Customer
+                                </a> 
+                               <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                    Monitor Toko
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="index.html">Barang</a>
+                                        <a class="nav-link" href="updatepassword.html">Stock</a>
+                                    </nav>
+                                </div>
+                                <a class="nav-link" href="tables.html">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                    Product
+                                </a> -->
+                        <!-- <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
+                                        Error
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="401.html">a</a>
+                                        <a class="nav-link" href="404.html">b</a>
+                                        <a class="nav-link" href="500.html">c</a>
+                                    </nav>
+                                </div> -->
+                        <!-- 
+                            </nav>
+                        </div> -->
+                        <div class="sb-sidenav-menu-heading"> </div>
+                        <!-- <a class="nav-link" href="charts.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Charts
+                        </a> 
+                        <a class="nav-link" href="tables.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            MONITOR BARANG
+                        </a>
+                        <a class="nav-link" href="asset.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            MONITOR ASSET
+                        </a>
+                        <a class="nav-link" href="getAsset.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            MONITOR HISTORY ASSET
+                        </a> -->
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="small text-white " id="user"></div>
+                    <script>
+                        var n = localStorage.getItem("username");
+                        document.getElementById("user").innerHTML = `Logged in as   : ` + n;
+                    </script>
+            </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid">
+                        <h1 class="mt-4"></h1>
+                        <ol class="breadcrumb mb-4 alert alert-bg" role="alert">
+                            <li class="breadcrumb-item ">MENU COUNTER</li>
+                        </ol>
+                        <div class="card mb-4">
+                            <div class="card-body myCard">
+                                <div class="input-group ">
+                                    <input class="form-control myInputHp" id="myInputHp" style="border: 1px solid #523633;" type="text" placeholder="Search Asset" aria-label="Search" aria-describedby="basic-addon2" />
+                                    <div class="input-group-append myInputHp">
+                                        <button class="btn" style="background-color:#523633; color: white;" type="button"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-4">
+                                <div class="card-body myCard2">
+                                    <!--Table Resposive-->
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover" width="100%" cellspacing="0">
+                                            <thead class="table-custom">
+                                                <tr>
+                                                    <th class="text-center">NoPelanggan</th>
+                                                    <th class="text-center">NoCounter</th>
+                                                    <th class="text-center">Keterangan</th>
+                                                    <th class="text-center">Upload</th>
+                                                    <th class="text-center">History</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody id="demo">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <!-- Card Resposive-->
+                                    <div class="card-custom" id="card-list">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Your Website 2020</div>
+                            <div>
+                                <a href="#">Privacy Policy</a> &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+                </div>
+            </div>
+
+            <!-- Modal Detail-->
+            <div class="modal fade" id="ModalDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Detail Data</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                        </div>
+                        <div class="modal-body">
+                            <ul class="list-group" id="lis">
+                                <!-- <li class="list-group-item disabled">Cras justo odio</li>
+                    <li class="list-group-item">Dapibus ac facilisis in</li>
+                    <li class="list-group-item">Morbi leo risus</li>
+                    <li class="list-group-item">Porta ac consectetur ac</li>
+                    <li class="list-group-item">Vestibulum at eros</li> -->
+                            </ul>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Upload-->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Detail Data</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" value="Refresh Halaman" onclick="history.go(0);"> 
+            <span aria-hidden="true">&times;</span>
+          </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="myForm" name="myForm">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="inputCity">Keterangan</label>
+                                        <input type="text" name="keterangan" id="keterangan" class="form-control" placeholder="Keterangan" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputPassword4">Number Counter</label>
+                                        <input type="number" name="counter" id="counter" class="form-control" placeholder="Number Counter" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="exampleFormControlFile1">Upload Gambar</label>
+                                        <input type="file" name="fileInput" id="fileInput" class="form-control-file">
+                                        <br>
+                                        <img src="" class="img-fluid" style="display:none;" alt="Responsive image" />
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" id="upload">Upload</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" value="Refresh Halaman" onclick="history.go(0);">Close</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Data-->
+            <script>
+                $(document).ready(function() {
+
+                    $(`#myInput`).on(`keyup`, function() {
+                        let value = $(this).val().toLowerCase();
+                        $(`#demo tr`).filter(function() {
+
+                            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+
+                        });
+                    });
+                });
+            </script>
+
+            <!-- Search Data HP-->
+            <script>
+                $(document).ready(function() {
+
+                    $(`#myInputHp`).on(`keyup`, function() {
+                        let value = $(this).val().toLowerCase();
+                        $(`#card-list .data`).filter(function() {
+
+                            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+
+                        });
+                    });
+                });
+            </script>
+
+            <!-- NAMPILKAN DATA OBJECT-->
+            <script>
+                const x = localStorage.getItem("token");
+                console.log(x);
+                let id;
+
+                var settings = {
+
+                    "url": "https://okt20.onlineberkas.com/api/assets/get-list",
+                    "method": "POST",
+                    "timeout": 0,
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({
+                        "token": x
+                    }),
+                };
+
+                $.ajax(settings).done(function(response) {
+
+                        var data = (response);
+
+                        var table = '<table>';
+                        var nomor = 1;
+                        let card = "";
+                        let angka;
+                        const cardtampil = document.getElementById('card-list');
+                        for (let item of data) {
+
+                            id = item.id;
+                            angka = item.noCounter;
+
+
+
+                            var reverse = angka.toString().split('').reverse().join(''),
+                                ribuan = reverse.match(/\d{1,3}/g);
+                            ribuan = ribuan.join('.').split('').reverse().join('');
+
+                            const noPelanggan = "NoPelanggan" + " : " + item.noPelanggan;
+                            const noCounter = "NoCounter" + " : " + ribuan;
+
+                            table += '<tr>';
+
+                            table += `<td class="text-center">${item.noPelanggan}</td>`;
+                            table += `<td class="text-center">${ribuan}</td>`;
+                            table += `<td class="text-center">${item.keterangan}</td>`;
+                            table += `<td class="text-center"><button type="button" id="${id}" class="btn btn-small btn-success id_detail" data-toggle="modal" data-target="#exampleModal">
+                           Upload
+                        </button></td>`;
+                            table += `<td class="text-center"><button type="button" id="${id}" class="btn btn-small btn-warning  id_detail_history" >
+                           History
+                        </button></td>`;
+                            table += '</tr>';
+
+                            card += `
+                            <div class="data">   
+                             <div class="card border  card-header mt-4 font-card bg-card">
+                                <span><i class="fas fa-search-location "></i> ${item.keterangan}</span>
+                                    </div>
+                                    <ul class="list-group list-group-flush border">                                 
+                                        <li class="list-group-item font-list">${noPelanggan}</li>
+                                        <li class="list-group-item font-list">${noCounter}</li>     
+                                        <li class="list-group-item font-list">Asset : ${item.keterangan}</li>                          
+                                    </ul>
+                                    <div class="card-body border mb-3 ">
+                                        <div class="row">
+                                            <div class="col-1">
+                                            </div>
+                                            <button type="button" id="${id}" class="btn btn-small btn-card id_detail col-4" data-toggle="modal"data-target="#exampleModal">
+                                                    Upload
+                                            </button>
+                                            <div class="col-2">
+                                            </div>
+                                            <button type="button" id="${id}" class="btn btn-small btn-card2  id_detail_history col-4">
+                                                History
+                                            </button>
+                                            <div class="col-1">
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>`;
+                        }
+
+
+                        table += '</table>';
+                        document.getElementById('demo').innerHTML = table;
+                        cardtampil.innerHTML = card;
+
+                        //Logic History
+
+                        let NameHistory;
+                        const id_detail_history = document.querySelectorAll(".id_detail_history");
+                        id_detail_history.forEach((el) => {
+                            el.addEventListener('click', function(event) {
+                                const id_detail_history = parseInt(event.target.id);
+                                localStorage.setItem('historyId', id_detail_history);
+                                for (let HistoryName of data) {
+                                    if (id_detail_history === HistoryName.id) {
+                                        NameHistory = HistoryName.keterangan;
+                                    }
+                                }
+                                localStorage.setItem('NameHistory', NameHistory);
+                                window.location.href = "HistoryAsset.html";
+                            })
+                        })
+
+                        //Logic Detail
+                        //         var list = '<ul>'
+
+                        //         const idDetailAsli = document.querySelectorAll(".id_detail_asli");
+                        //         idDetailAsli.forEach((el) => {
+                        //             el.addEventListener('click', function(event) {
+                        //                 const IdDetailAsli = parseInt(event.target.id);
+                        //                 let modal = "";
+                        //                 const Modal = document.getElementById('lis');
+                        //                 for (let modul of data) {
+                        //                     if (IdDetailAsli === modul.id) {
+                        //                         modal += `
+                        //  <li class="list-group-item"><span class="font-weight-bold">Id </span>  :     ${modul.id}</li>
+                        // <li class="list-group-item"><span class="font-weight-bold">No Pelanggan</span>  :    ${modul.noPelanggan}</li>
+                        // <li class="list-group-item"><span class="font-weight-bold">No Counter</span>  :     ${modul.noCounter}</li>
+                        // `
+                        //                     }
+                        //                 }
+                        //                 Modal.innerHTML = modal;
+
+                        //             })
+                        //         })
+
+
+
+                        // Logic Upload
+                        const idDetail = document.querySelectorAll(".id_detail");
+                        console.log(idDetail)
+                        idDetail.forEach((el) => {
+                            el.addEventListener('click', function(event) {
+                                const IdDetail = parseInt(event.target.id);
+                                console.log(event)
+
+                                console.log(IdDetail)
+
+                                let pathImg;
+                                $('#fileInput').change(function(event) {
+                                    pathImg = URL.createObjectURL(event.target.files[0]);
+                                    $("img").fadeIn("fast").attr('src', URL.createObjectURL(event.target.files[0]));
+                                });
+
+
+                                //MODUL UPLOAD 
+
+                                const buttonUpload = document.getElementById('upload');
+                                const input = document.querySelector('#fileInput');
+                                const keterangan = document.querySelector('#keterangan');
+                                const counter = document.querySelector('#counter');
+                                const img = document.querySelector('#myForm img');
+
+                                buttonUpload.addEventListener('click', function(event) {
+                                    event.preventDefault();
+
+                                    var form = new FormData();
+                                    form.append("filegambar", input.files[0], pathImg);
+                                    form.append("id", IdDetail.toString());
+                                    form.append("keterangan", keterangan.value);
+                                    form.append("counter", counter.value);
+                                    form.append("token", x);
+
+                                    console.log(form)
+                                    var settings = {
+                                        "url": "https://okt20.onlineberkas.com/api/files/upload-pencatatanAsset",
+                                        "method": "POST",
+                                        "timeout": 0,
+                                        "processData": false,
+                                        "mimeType": "multipart/form-data",
+                                        "contentType": false,
+                                        "data": form
+                                    };
+
+                                    $.ajax(settings).done(function(response) {
+                                        alert(response);
+                                    });
+
+                                })
+
+                            })
+
+                        })
+
+                    }
+
+                );
+            </script>
+
+
+            <!--Menu-->
+            <script>
+                let menu;
+                var settings = {
+                    "url": "https://okt20.onlineberkas.com/api/menus/get-menu",
+                    "method": "GET",
+                    "timeout": 0,
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({}),
+                };
+
+                $.ajax(settings).done(function(response) {
+
+                    menu = response;
+
+                    let html = "";
+                    menu.forEach(data => {
+
+                        if (data.menuSubs == null) {
+                            html += `<a class="nav-link" href="${data.namaLink}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-folder-open text-white"></i></div>
+                                ${data.namaMenu}
+                            </a>`
+                        } else {
+                            let submenu = "";
+                            data.menuSubs.forEach(dataMenuSubs => {
+                                console.log(dataMenuSubs)
+                                submenu += `<a class="nav-link" href="${dataMenuSubs.namaLink}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-folder-open text-white"></i></div>
+                                ${dataMenuSubs.namaMenu}
+                           </a>`
+                                    //aria-expanded="true" 
+                                    // data-toggle="collapse" data-target="#pagesCollapseAuth" aria-controls="pagesCollapseAuth"
+                            })
+                            html += `<a class="nav-link " href="#" id="submenu">
+                                <div class="sb-nav-link-icon text-white"><i class="fas fa-folder-open"></i></div>
+                                ${data.namaMenu}
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class ="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
+                                <nav class="sb-sidenav-menu-nested nav" id="menuSubs">
+                                    ${submenu}
+                                </nav>
+                            </div>`
+
+                        }
+
+                        document.getElementById('sidenavAccordionPages').innerHTML = html;
+                    })
+                    document.querySelectorAll('#submenu').forEach((Menu, id) => {
+                        console.log(id)
+                        const subMenu = document.querySelectorAll('#pagesCollapseAuth');
+                        Menu.addEventListener('click', function(event) {
+                            console.log(subMenu[id])
+                            if (subMenu[id].classList.contains('show')) {
+                                subMenu[id].classList.remove('show')
+
+                            } else {
+
+                                subMenu[id].classList.add('show')
+                            }
+
+                        })
+                    })
+
+
+
+                });
+            </script>
+
+            <!-- BODY CONTAKS-->
+            <script>
+                const bodY = document.getElementById('layoutSidenav_content')
+                document.getElementById('layoutSidenav_content').addEventListener('click', function(el) {
+                    console.log(bodY)
+                    if (bodY.classList) {
+                        document.getElementById('body').classList.remove("sb-sidenav-toggled");
+                    } else {
+                        console.log(document.getElementById('body').classList.contains('sb-sidenav-toggled'))
+                    }
+
+                })
+            </script>
+
+            <!-- HAPUS DATA LOCALSTROGA-->
+            <script>
+                function deleteItems() {
+                    localStorage.clear();
+                }
+            </script>
+
+            <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+            <script src="js/scripts.js"></script>
+            <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+            <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+            <script src="assets/demo/datatables-demo.js"></script>
+</body>
+
+</html>

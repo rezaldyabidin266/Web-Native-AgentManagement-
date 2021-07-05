@@ -1,0 +1,498 @@
+<script>
+    //bikin function
+    // function funcImg() {
+    //     var data = JSON.stringify({
+    //         "namafile": "(7) PDAM APT N2 20-11-05 13.jpeg"
+    //     });
+
+    //     var xhr = new XMLHttpRequest();
+    //     xhr.onreadystatechange = function() {
+    //         if (this.readyState == 4 && this.status == 200) {
+    //             //this.response is what you're looking for
+    //             // handler(this.response);
+    //             // console.log(this.response, typeof this.response);
+    //             var img = document.getElementById('img2');
+    //             console.log(img)
+    //             var url = window.URL || window.webkitURL;
+    //             img.src = url.createObjectURL(this.response);
+    //         }
+    //     }
+
+    //     xhr.open("POST", "https://okt20.onlineberkas.com/api/files/get-fileAsset");
+    //     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    //     xhr.responseType = 'blob';
+    //     xhr.send(data);
+    // }
+</script>
+
+
+<script>
+    //Per Select Tampilnya
+    // let id;
+    // let idHistory;
+    // let imgPath;
+    // $(document).ready(function() {
+
+    //     $('select').change(function(event) {
+
+    //         idHistory = $('select').val();
+
+    //         idHistoryInt = parseInt(idHistory);
+    //         console.log(idHistoryInt)
+    //         let card = "";
+    //         const cardtampil = document.getElementById('card-list');
+    //         var settings = {
+    //             "url": "https://okt20.onlineberkas.com/api/assets/get-history",
+    //             "method": "POST",
+    //             "timeout": 0,
+    //             "headers": {
+    //                 "Content-Type": "application/json"
+    //             },
+    //             "data": JSON.stringify({
+    //                 "token": x,
+    //                 "id": idHistoryInt
+    //             }),
+    //         };
+
+    //         $.ajax(settings).done(function(response) {
+
+    //             let data = (response);
+
+    //             // console.log(response);
+
+    //             var table = '<table>';
+    //             var nomor = 1;
+    //             var list = `<ul>`
+
+    //             for (let item of data) {
+
+    //                 id = item.tanggal;
+    //                 imgPath = item.pathImage;
+
+    //                 table += '<tr>';
+    //                 table += `<td class="text-center">${nomor++}</td>`;
+    //                 table += `<td class="text-center">${item.tanggal}</td>`;
+    //                 table += `<td class="text-center">${item.selisih}</td>`;
+    //                 table += `<td class="text-center">${item.keterangan}</td>`;
+    //                 table += `<td class="text-center"><button type="button" id="${id}" class="btn btn-small btn-primary id_detail" data-toggle="modal" data-target="#exampleModal">
+    //        Detail
+    //     </button></td>`;
+    //                 table += `<td class="text-center"><button type="button" id="${imgPath}" class="btn btn-small btn-danger id_gambar" data-toggle="modal" data-target="#exampleModalGambar">
+    //        Image
+    //     </button></td>`;
+    //                 table += '</tr>';
+
+    //                 card += `    <div class="card card-header mt-3 font-weight-bold font-card bg-card">
+    //                                 ${item.keterangan}
+    //                             </div>
+    //                             <ul class="list-group list-group-flush border">
+    //                                 <li class="list-group-item font-list">Tanggal : ${item.tanggal}</li>
+    //                                 <li class="list-group-item font-list">Jumlah Selisih : ${item.selisih}</li>                                                          
+    //                             </ul>
+    //                             <div class="card-body border mb-3">
+    //                                 <button type="button" id="${imgPath}" class="btn btn-small btn-card id_gambar" data-toggle="modal" data-target="#exampleModalGambar">
+    //                                     Cek Image
+    //                                 </button>
+    //                             </div>`;
+
+    //             }
+
+    //             table += '</table>';
+    //             document.getElementById('demo').innerHTML = table;
+    //             cardtampil.innerHTML = card;
+
+
+
+    //             var list = '<ul>'
+
+    //             const idDetail = document.querySelectorAll(".id_detail");
+    //             idDetail.forEach((el) => {
+    //                 el.addEventListener('click', function(event) {
+    //                     const IdDetail = event.target.id;
+    //                     let modal = "";
+    //                     const Modal = document.getElementById('lis');
+    //                     for (let modul of data) {
+    //                         if (IdDetail === modul.tanggal) {
+    //                             modal += `
+    //         <li class="list-group-item"><span class="font-weight-bold">Tanggal</span>  :    ${modul.tanggal}</li>
+    //         <li class="list-group-item"><span class="font-weight-bold">Selisih</span>  :     ${modul.selisih}</li>
+    //         <li class="list-group-item"><span class="font-weight-bold">Keterangan</span>  :     ${modul.keterangan}</li>
+
+    //         `
+    //                         }
+    //                     }
+    //                     Modal.innerHTML = modal;
+
+    //                 })
+    //             })
+
+
+    //             const Path = document.querySelectorAll(".id_gambar");
+    //             Path.forEach((el) => {
+    //                 el.addEventListener("click", function(event) {
+    //                     const PathGambar = event.target.id;
+    //                     console.log(PathGambar)
+    //                     let modalGambar = "";
+    //                     for (let modul of data) {
+    //                         if (PathGambar === modul.pathImage) {
+
+    //                             var dataImage = JSON.stringify({
+    //                                 "namafile": modul.pathImage
+    //                             });
+
+    //                             var xhr = new XMLHttpRequest();
+    //                             xhr.onreadystatechange = function() {
+    //                                 if (this.readyState == 4 && this.status == 200) {
+    //                                     //this.response is what you're looking for
+    //                                     // handler(this.response);
+    //                                     // console.log(this.response, typeof this.response);
+    //                                     const img = document.getElementById('img3');
+    //                                     console.log(img)
+    //                                     var url = window.URL || window.webkitURL;
+    //                                     img.src = url.createObjectURL(this.response);
+    //                                     img.innerHTML = modalGambar;
+
+    //                                 }
+    //                             }
+
+    //                             xhr.open("POST", "https://okt20.onlineberkas.com/api/files/get-fileAsset");
+    //                             xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    //                             xhr.responseType = 'blob';
+    //                             xhr.send(dataImage);
+
+
+    //                         }
+    //                     }
+
+    //                 })
+    //             })
+
+    //         });
+    //     });
+    // });
+</script>
+
+<script>
+    //Nampilin gambar
+
+    // const Path = document.querySelectorAll(".id_gambar");
+    // Path.forEach((el) => {
+    //     el.addEventListener("click", function(event) {
+    //         const PathGambar = event.target.id;
+    //         console.log(PathGambar)
+    //         let modalGambar = "";
+    //         for (let modul of data) {
+    //             if (PathGambar === modul.pathImage) {
+
+    //                 var dataImage = JSON.stringify({
+    //                     "namafile": modul.pathImage
+    //                 });
+
+    //                 var xhr = new XMLHttpRequest();
+    //                 xhr.onreadystatechange = function() {
+    //                     if (this.readyState == 4 && this.status == 200) {
+    //                         //this.response is what you're looking for
+    //                         // handler(this.response);
+    //                         // console.log(this.response, typeof this.response);
+    //                         const img = document.getElementById('img3');
+    //                         console.log(img)
+    //                         var url = window.URL || window.webkitURL;
+    //                         img.src = url.createObjectURL(this.response);
+    //                         img.innerHTML = modalGambar;
+
+    //                     }
+    //                 }
+
+    //                 xhr.open("POST", "https://okt20.onlineberkas.com/api/files/get-fileAsset");
+    //                 xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    //                 xhr.responseType = 'blob';
+    //                 xhr.send(dataImage);
+
+
+    //             }
+    //         }
+
+    //     })
+    // })
+</script>
+
+<script>
+    //GET LOCACTION
+
+    // function getLocation() {
+    //     var errorMessage = '';
+    //     if (navigator.geolocation) {
+    //         navigator.geolocation.getCurrentPosition(function position(position) {
+    //                 lat = position.coords.latitude;
+    //                 long = position.coords.longitude;
+    //                 remaks = "sukses";
+    //                 console.log(lat, long, remaks);
+    //                 check(lat, long, remaks)
+
+    //             },
+    //             function(error) {
+    //                 if (error.code === 1) {
+    //                     errorMessage = "Reject Location";
+    //                 } else if (window.err.code === 2) {
+    //                     errorMessage = "Location information is unavailable.";
+    //                 } else if (window.err.code === 3) {
+    //                     errorMessage = "The request to get user location timed out.";
+    //                 } else {
+    //                     errorMessage = "An unknown error occurred.";
+    //                 }
+    //                 lat = 0;
+    //                 long = 0;
+    //                 remaks = errorMessage;
+    //                 console.log(lat, long, remaks);
+    //                 check(lat, long, remaks)
+    //             });
+    //     } else {
+
+    //         errorMessage = "Geolocation is not supported by this browser.";
+    //         lat = 0;
+    //         long = 0;
+    //         remaks = errorMessage;
+    //         console.log(lat, long, remaks);
+    //         check(lat, long, remaks)
+    //     }
+    // }
+    // getLocation();
+</script>
+
+<script>
+    //pergi ke lokasi
+    // <a href="http://maps.google.com/maps?q= + ${item.latitude} + , + ${item.longitude}"> <i class="fas fa-map-marker-alt mr-3 ml-2"></i></a>
+</script>
+
+<script>
+    // var myHeaders = new Headers();
+    // myHeaders.append("Content-Type", "multipart/form-data; boundary=--------------------------532150240192609173802277");
+
+    // var formdata = new FormData();
+    // formdata.append("filegambar", input.files[0], pathImg);
+    // formdata.append("id", IdDetail.toString());
+    // formdata.append("keterangan", keterangan.value);
+    // formdata.append("counter", counter.value);
+    // formdata.append("token", x);
+
+    // var requestOptions = {
+    //     method: 'POST',
+    //     headers: myHeaders,
+    //     mode: "no-cors",
+    //     body: formdata,
+    //     redirect: 'follow'
+    // };
+
+    // fetch("https://okt20.onlineberkas.com/api/files/upload-pencatatanAsset", requestOptions)
+    //     .then(response =>
+    //         JSON.stringify(response)
+
+    //     )
+    //     .then(result => console.log(result))
+    //     .catch(error => console.log('error', error));
+</script>
+
+<!--Logic Upload Gambar Stock-->
+<script>
+    // let idtempGambarId = localStorage.getItem("tempGambarId");
+    // console.log(idtempGambarId)
+    // let pathImgStock;
+    // $('#fileInputStock').change(function(event) {
+    //     pathImgStock = URL.createObjectURL(event.target.files[0]);
+    //     $("img").fadeIn("fast").attr('src', URL.createObjectURL(event.target.files[0]));
+    // });
+
+    // const buttonUpload = document.getElementById('uploadStock');
+    // const inputStock = document.querySelector('#fileInputStock');
+
+    // buttonUpload.addEventListener('click', function(event) {
+    //     event.preventDefault();
+
+    //     var form = new FormData();
+    //     form.append("token", x);
+    //     form.append("tempGambarId", idtempGambarId);
+    //     form.append("fileGambar", inputStock.files[0], pathImgStock);
+    //     form.append("posisiGambar", "Stock");
+
+    //     var settings = {
+    //         "url": "https://okt20.onlineberkas.com/api/files/upload-gambarFreezer",
+    //         "method": "POST",
+    //         "timeout": 0,
+    //         "processData": false,
+    //         "mimeType": "multipart/form-data",
+    //         "contentType": false,
+    //         "data": form
+    //     };
+
+    //     $.ajax(settings).done(function(response) {
+    //         console.log(response);
+    //     });
+
+    // })
+
+
+    // const idTable = document.querySelectorAll("#demo");
+    // idTable.forEach((el) => {
+    //     console.log(el)
+
+    // })
+    // let ceklis = "";
+    // for (let Berhasil of data) {
+    //     if (IdDetail === Berhasil.kunjunganId) {
+    //         BerhasilAlert = Berhasil.nama
+    //         console.log(BerhasilAlert)
+    //         ceklis += `<i class="fas fa-check"></i>`
+    //         document.getElementById('ceklis').innerHTML = ceklis;
+    //     } else {
+
+    //     }
+    //     document.getElementById('ceklis').innerHTML = ceklis;
+    // }
+    // let Warna = document.querySelector('.ceklis');
+    // Warna.style.color = "red";
+    // console.log(table);
+
+    // const cekLis = document.querySelectorAll('td');
+    // cekLis.forEach((el) => {
+
+    //     for (let Ceklis of data) {
+    //         console.log(Ceklis.kunjunganId)
+    //         if (cekLis === Ceklis.kunjunganId) {
+    //             console.log(Ceklis.nama)
+    //         }
+    //     }
+    // })
+
+    // if (cekLis.classList) {
+    //     document.getElementById('body').classList.remove("sb-sidenav-toggled");
+    // } else {
+    //     console.log(document.getElementById('body').classList.contains('sb-sidenav-toggled'))
+    // }
+    // const IdCeklis = document.querySelectorAll('.ceklis');
+    // IdCeklis.forEach((el) => {
+    //     const Cek = el;
+    //     console.log(Cek);
+
+
+    // })
+</script>
+
+<script>
+    console.log(IdDetail)
+    console.log(long, lat, remaks);
+
+    // var settings = {
+    //     "url": "https://okt20.onlineberkas.com/api/setorans/set-KunjunganBerhasil",
+    //     "method": "POST",
+    //     "timeout": 0,
+    //     "headers": {
+    //         "Content-Type": "application/json"
+    //     },
+    //     "data": JSON.stringify({
+    //         "token": x,
+    //         "kunjunganId": IdDetail,
+    //         "isBerhasil": true,
+    //         "latitude": long,
+    //         "longitude": lat,
+    //         "remarks": remaks
+    //     }),
+    // };
+
+    // $.ajax(settings).done(function(response) {
+
+    //     // if (!alert(response + ' ' + BerhasilAlert)) {
+    //     //     //window.location.reload();
+    //     // }
+    //     alert(response + ' ' + BerhasilAlert)
+    //         // console.log(WarnaText);
+
+    //     WarnaText[id].classList.add('textwarna');
+    //     WarnaText2[id].classList.add('textwarna');
+    //     WarnaText3[id].classList.add('textwarna');
+    //     WarnaText4[id].classList.add('textwarna');
+
+    //     // const idTable = document.querySelectorAll("#demo");
+    //     // idTable.forEach((el) => {
+    //     //     console.log(el)
+
+    //     // })
+    //     // let ceklis = "";
+    //     // for (let Berhasil of data) {
+    //     //     if (IdDetail === Berhasil.kunjunganId) {
+    //     //         BerhasilAlert = Berhasil.nama
+    //     //         console.log(BerhasilAlert)
+    //     //         ceklis += `<i class="fas fa-check"></i>`
+    //     //         document.getElementById('ceklis').innerHTML = ceklis;
+    //     //     } else {
+
+    //     //     }
+    //     //     document.getElementById('ceklis').innerHTML = ceklis;
+    //     // }
+    //     // let Warna = document.querySelector('.ceklis');
+    //     // Warna.style.color = "red";
+    //     // console.log(table);
+
+    //     // const cekLis = document.querySelectorAll('td');
+    //     // cekLis.forEach((el) => {
+
+    //     //     for (let Ceklis of data) {
+    //     //         console.log(Ceklis.kunjunganId)
+    //     //         if (cekLis === Ceklis.kunjunganId) {
+    //     //             console.log(Ceklis.nama)
+    //     //         }
+    //     //     }
+    //     // })
+
+    //     // if (cekLis.classList) {
+    //     //     document.getElementById('body').classList.remove("sb-sidenav-toggled");
+    //     // } else {
+    //     //     console.log(document.getElementById('body').classList.contains('sb-sidenav-toggled'))
+    //     // }
+    //     // const IdCeklis = document.querySelectorAll('.ceklis');
+    //     // IdCeklis.forEach((el) => {
+    //     //     const Cek = el;
+    //     //     console.log(Cek);
+
+
+    //     // })
+    // });
+</script>
+
+
+<div class="card">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs" id="bologna-list" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#toko" role="tab" aria-controls="description" aria-selected="true">Description</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" data-target="#isi" role="tab" aria-controls="history" aria-selected="false">History</a>
+            </li>
+            <!-- <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#deals" role="tab" aria-controls="deals" aria-selected="false">Deals</a>
+            </li> -->
+        </ul>
+    </div>
+    <div class="card-body">
+        <h4 class="card-title"> <i class="fas fa-store-alt mr-2 text-dark"></i><strong>{{ data.nama }}</strong></h4>
+        <h6 class="card-subtitle mb-2">Emilia-Romagna Region, Italy</h6>
+
+        <div class="tab-content mt-3">
+            <div class="tab-pane active" id="toko" role="tabpanel">
+                <a type="button" class="btn btn-small btn btn-success" href="http://maps.google.com/maps?q= + {{data.latitude}} + , + {{data.longitude}}">
+                    Akses Lokasi
+                </a>
+            </div>
+
+            <div class="tab-pane" id="{{data.nama}}" role="tabpanel" aria-labelledby="history-tab">
+                <p class="card-text">Waktu Stock : <strong>{{ data.jarak }}</strong></p>
+                <p class="card-text">Jumlah Juice : <strong>{{ data.juice }}</strong></p>
+            </div>
+
+            <!-- <div class="tab-pane" id="deals" role="tabpanel" aria-labelledby="deals-tab">
+                <p class="card-text">bbb</p>
+                <a href="#" class="btn btn-danger btn-sm">Get Deals</a>
+            </div> -->
+        </div>
+    </div>
+</div>

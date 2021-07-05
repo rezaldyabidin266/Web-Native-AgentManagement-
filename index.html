@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Login V2</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="css/util.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <!--===============================================================================================-->
+
+    <!--Jquery 3.4.0 manual-->
+    <script src="js/jquery.js"></script>
+    <!-- AJAX HARUS ADA-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" crossorigin="anonymous"></script>
+
+    <style>
+        .container-login100 {
+            background-image: linear-gradient(to right, #4682B4, #00FFFF, #1d1fc5);
+        }
+        
+        @media only screen and (max-width: 480px) {
+            .imageMobile {
+                width: 250px;
+                height: 155px;
+            }
+            .wrap-input100 {
+                width: 100%;
+                position: relative;
+                border-bottom: 2px solid #adadad;
+                margin-bottom: 37px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100">
+                <form class="login100-form validate-form">
+
+                    <span class="login100-form-title p-b-40">
+						<img src="images/Es Brasil Logo.png" class="imageMobile" width="300px" height="170px" alt="Responsive image">
+					</span>
+
+                    <div class="wrap-input100 validate-input" data-validate="Type user name">
+                        <input class="input100" type="text" name="username" id="userName">
+                        <span class="focus-input100" data-placeholder="User Name"></span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input" data-validate="Enter password">
+                        <span class="btn-show-pass">
+							<i class="zmdi zmdi-eye"></i>
+						</span>
+                        <input class="input100" type="password" name="password" id="userPw">
+                        <span class="focus-input100" data-placeholder="Password"></span>
+                    </div>
+
+                    <div class="container-login100-form-btn">
+                        <div id="error"></div>
+                        <div class="wrap-login100-form-btn">
+                            <div class="login100-form-bgbtn"></div>
+
+                            <button class="login100-form-btn" onclick="check(lat,long,remaks,false)" id="enter" type="button">
+								Login
+							</button>
+                        </div>
+                    </div>
+
+                    <div class="text-center p-t-40">
+                        <span class="txt1">
+							© 2020 - By Martin Martono (Bogor Studio)
+						</span>
+
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="dropDownSelect1"></div>
+
+    <script src="js/main.js"></script>
+    <script src="js/scripts.js"></script>
+
+    <script>
+        let long;
+        let lat;
+        let remaks;
+
+        function getLocation() {
+            var errorMessage = '';
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function position(position) {
+                        lat = position.coords.latitude;
+                        long = position.coords.longitude;
+                        remaks = "sukses";
+                        console.log(lat, long, remaks);
+                        check(lat, long, remaks)
+
+                    },
+                    function(error) {
+                        if (error.code === 1) {
+                            errorMessage = "Reject Location";
+                        } else if (window.err.code === 2) {
+                            errorMessage = "Location information is unavailable.";
+                        } else if (window.err.code === 3) {
+                            errorMessage = "The request to get user location timed out.";
+                        } else {
+                            errorMessage = "An unknown error occurred.";
+                        }
+                        lat = 0;
+                        long = 0;
+                        remaks = errorMessage;
+                        console.log(lat, long, remaks);
+                        check(lat, long, remaks)
+                    });
+            } else {
+
+                errorMessage = "Geolocation is not supported by this browser.";
+                lat = 0;
+                long = 0;
+                remaks = errorMessage;
+                console.log(lat, long, remaks);
+                check(lat, long, remaks)
+            }
+        }
+
+
+        function check(lat, long, remaks, cek) {
+
+            let userName = document.getElementById('userName').value;
+            let userPw = document.getElementById('userPw').value;
+            let b = lat;
+            let c = long;
+            var settings = {
+                "url": "https://okt20.onlineberkas.com/api/users/login",
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                    "username": userName,
+                    "password": userPw,
+                    "latitude": b = String(lat),
+                    "longitude": c = String(long),
+                    "remarks": remaks
+
+                }),
+            };
+
+            $.ajax(settings)
+                .done(function(response) {
+                    console.log(response["token"]);
+                    console.log(response["username"]);
+                    var n;
+                    n = response["username"]
+                    var x;
+                    x = response["token"];
+                    localStorage.setItem('token', x);
+                    localStorage.setItem('username', n);
+                    window.location.href = "Dashboard.html";
+
+                }).fail(function(xhr, status, error) {
+
+                    //Ajax request failed.
+                    //var errorMessage = xhr.status + ': ' + xhr.statusText
+                    if (cek == false) {
+                        let errorHTML = "";
+                        const errorr = document.getElementById('error');
+                        errorHTML += `
+                    <p class= "text-danger">Username / Password tidak ditemukan</p>
+                `
+                        errorr.innerHTML = errorHTML;
+                    } else {
+                        console.log('Bad Request')
+                    }
+
+                });
+
+        };
+
+
+        // ikan();
+        getLocation();
+
+
+        //Tombol Enter
+        document.getElementById("userPw").addEventListener("keyup", function(event) {
+            if (event.keyCode == 13) {
+                document.getElementById("enter").click();
+            }
+        });
+
+
+        // function ikan() {
+        //     navigator.geolocation.getCurrentPosition(
+        //         function position(position) {
+        //             lat = position.coords.latitude;
+        //             long = position.coords.longitude;
+        //             remaks = "sukses";
+        //             console.log(lat, long, remaks);
+        //             check(lat, long, remaks)
+
+        //         }
+        //     )
+        // }
+    </script>
+
+    <!--===============================================================================================-->
+    <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="vendor/animsition/js/animsition.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="vendor/bootstrap/js/popper.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="vendor/select2/select2.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="vendor/daterangepicker/moment.min.js"></script>
+    <script src="vendor/daterangepicker/daterangepicker.js"></script>
+    <!--===============================================================================================-->
+    <script src="vendor/countdowntime/countdowntime.js"></script>
+    <!--===============================================================================================-->
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
